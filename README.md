@@ -8,9 +8,8 @@
 
 > Sometimes you need some reminder for boring tasks
 
-## Table of Contents
+## Table of Contents <!-- omit in toc -->
 
-- [Table of Contents](#table-of-contents)
 - [Why](#why)
 - [How it works](#how-it-works)
 - [Getting started](#getting-started)
