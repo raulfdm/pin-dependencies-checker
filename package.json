@@ -18,8 +18,7 @@
     "lint": "eslint . && yarn tsc"
   },
   "dependencies": {
-    "node-args": "~2.1.8",
-    "prettyjson": "~1.2.1"
+    "node-args": "~2.1.8"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
