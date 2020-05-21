@@ -4,7 +4,7 @@ import external from 'rollup-plugin-auto-external';
 export default {
   input: 'src/main.ts',
   output: {
-    dir: 'dist',
+    file: 'dist/index.js',
     format: 'cjs',
     banner: '#!/usr/bin/env node',
   },
