@@ -163,6 +163,7 @@ Only `dependencies` will be evaluated.
 ## TODOS
 
 - Accept `--path` for a custom `package.json` path
+- Maybe check for `tilde` by default and other characters like `<`, `>` via arguments
 
 ## License
 
