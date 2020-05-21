@@ -2,7 +2,9 @@
 
 [![License](https://img.shields.io/npm/l/pin-dependencies-checker.svg)](./LICENSE)
 [![npm](https://img.shields.io/npm/v/pin-dependencies-checker.svg)](https://www.npmjs.com/package/pin-dependencies-checker)
-[![Badge](https://github.com/raulfdm/pin-dependencies-checker/workflows/Checker%20and%20Deploy/badge.svg)]()
+[![Badge](https://github.com/raulfdm/pin-dependencies-checker/workflows/Checker%20and%20Deploy/badge.svg)](https://github.com/raulfdm/pin-dependencies-checker/actions?query=branch%3Amaster)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d6c846b63dc5456e3794/maintainability)](https://codeclimate.com/github/raulfdm/pin-dependencies-checker/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/d6c846b63dc5456e3794/test_coverage)](https://codeclimate.com/github/raulfdm/pin-dependencies-checker/test_coverage)
 
 > Sometimes you need some reminder for boring tasks
 
