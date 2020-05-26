@@ -18,9 +18,9 @@
   - [Local](#local)
   - [Git hooks](#git-hooks)
 - [Arguments](#arguments)
-  - [`--perDeps`](#perdeps)
-  - [`--deps`](#deps)
-  - [`--devDeps`](#devdeps)
+  - [`--peerDeps`](#--peerdeps)
+  - [`--deps`](#--deps)
+  - [`--devDeps`](#--devdeps)
 - [TODOS](#todos)
 - [License](#license)
 
@@ -124,14 +124,14 @@ Maybe you only want to check for `devDependency` or only for `dependency`. You c
 
 > Note: you can combine multiple args.
 
-### `--perDeps`
+### `--peerDeps`
 
 > Default: false
 
 To enable `peerDependencies`:
 
 ```bash
-yarn pin-checker --perDeps=true
+yarn pin-checker --peerDeps=true
 ```
 
 All `perDependencies`, `dependencies`, and `devDependencies` will be evaluated.
