@@ -15,7 +15,6 @@ const unPinnedDependencies = filterUnpinnedDependencies(dependencies);
 
 if (isEmpty(unPinnedDependencies)) {
   console.log('✅ Check! Everything is pinned');
-  process.exit(0);
 } else {
   console.log(
     '⚠️Hey! It seems that the following dependencies are not pinned:',
