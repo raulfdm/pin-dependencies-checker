@@ -29,13 +29,6 @@ jobs:
       - name: Unit Tests
         run: pnpm test
 
-      - name: Coverage
-        uses: paambaati/codeclimate-action@v3.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        with:
-          coverageCommand: npm install -g pnpm && pnpm test --coverage
-
       - name: Lint
         run: pnpm run lint
 
