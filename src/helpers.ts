@@ -13,7 +13,7 @@ export function hasValueOr<T, V>(variable: T, defaultValue: V): T | V {
 }
 
 export function getDependencies(
-  { dependencies, devDependencies, peerDependencies }: PackageJsonDeps,
+  { dependencies, devDependencies, peerDependencies, optionalDependencies }: PackageJsonDeps,
   appConfig: AppConfig,
 ): HashType {
   let result = {} as Partial<HashType>;
@@ -28,6 +28,10 @@ export function getDependencies(
 
   if (appConfig.peerDependencies) {
     result = { ...result, ...peerDependencies };
+  }
+
+  if (appConfig.optionalDependencies) {
+    result = { ...result, ...optionalDependencies };
   }
 
   return result as HashType;

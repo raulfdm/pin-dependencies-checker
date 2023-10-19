@@ -6,7 +6,8 @@ export function getDependenciesFromPackageJson(): PackageJsonDeps {
     dependencies,
     peerDependencies,
     devDependencies,
+    optionalDependencies
   } = require(packageJsonPath);
 
-  return { dependencies, peerDependencies, devDependencies };
+  return { dependencies, peerDependencies, devDependencies, optionalDependencies };
 }

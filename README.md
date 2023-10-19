@@ -136,6 +136,18 @@ yarn pin-checker --peerDeps=true
 
 All `perDependencies`, `dependencies`, and `devDependencies` will be evaluated.
 
+### `--optionalDeps`
+
+> Default: false
+
+To enable `optionalDeps`:
+
+```bash
+yarn pin-checker --optionalDeps=true
+```
+
+All `optionalDeps`, `dependencies`, and `devDependencies` will be evaluated.
+
 ### `--deps`
 
 > Default: true

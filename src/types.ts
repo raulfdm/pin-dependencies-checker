@@ -2,14 +2,12 @@ export type HashType = {
   [prop: string]: string;
 };
 
-export type AppConfig = {
-  dependencies: boolean;
-  devDependencies: boolean;
-  peerDependencies: boolean;
+type PackageJsonDependencies<T> = {
+  dependencies: T;
+  devDependencies: T;
+  peerDependencies: T;
+  optionalDependencies: T
 };
 
-export type PackageJsonDeps = {
-  dependencies: HashType | undefined;
-  devDependencies: HashType | undefined;
-  peerDependencies: HashType | undefined;
-};
+export type AppConfig = PackageJsonDependencies<boolean>;
+export type PackageJsonDeps = PackageJsonDependencies<HashType | undefined>;
