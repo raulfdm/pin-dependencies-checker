@@ -29,8 +29,8 @@ devDependencies:
     specifier: 9.0.0
     version: 9.0.0(semantic-release@17.4.7)
   '@types/node':
-    specifier: 14.0.4
-    version: 14.0.4
+    specifier: '20'
+    version: 20.8.10
   '@types/prettyjson':
     specifier: 0.0.29
     version: 0.0.29
@@ -1329,8 +1329,10 @@ packages:
     resolution: {integrity: sha512-Kfe/D3hxHTusnPNRbycJE1N77WHDsdS4AjUYIzlDzhDrS47NrwuL3YW4VITxwR7KCVpzwgy4Rbj829KSSQmwXQ==}
     dev: true
 
-  /@types/node@14.0.4:
-    resolution: {integrity: sha512-k3NqigXWRzQZVBDS5D1U70A5E8Qk4Kh+Ha/x4M8Bt9pF0X05eggfnC9+63Usc9Q928hRUIpIhTQaXsZwZBl4Ew==}
+  /@types/node@20.8.10:
+    resolution: {integrity: sha512-TlgT8JntpcbmKUFzjhsyhGfP2fsiz1Mv56im6enJ905xG1DAYesxJaeSbGqQmAw8OWPdhyJGhGSQGKRNJ45u9w==}
+    dependencies:
+      undici-types: 5.26.5
     dev: true
 
   /@types/normalize-package-data@2.4.3:
@@ -3385,6 +3387,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /undici-types@5.26.5:
+    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+    dev: true
 
   /unicode-canonical-property-names-ecmascript@2.0.0:
     resolution: {integrity: sha512-yY5PpDlfVIU5+y/BSCxAJRBIS1Zc2dDG3Ujq+sR0U+JjUevW2JhocOF+soROYDSaAezOzOKuyyixhD6mBknSmQ==}
