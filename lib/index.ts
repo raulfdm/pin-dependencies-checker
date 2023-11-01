@@ -1,20 +1,37 @@
 import { type Package, getPackages } from "@manypkg/get-packages";
 
-const { tool, packages, rootPackage, rootDir } = await getPackages(
-	process.cwd(),
-);
+const { packages, rootPackage } = await getPackages(process.cwd());
 
 const allPackages = packages.map(createPackage);
 
-const allUnpinned = allPackages
-	.filter((pkg) => pkg.hasUnpinnedDependency())
-	.map((pkg) => pkg.getUnpinnedDependencies());
+/**
+ * In monorepos, rootPackage is not included in the `packages` list,
+ * so we have to include it manually.
+ */
+if (rootPackage) {
+	allPackages.unshift(createPackage(rootPackage));
+}
+
+const allUnpinned = allPackages.filter((pkg) => pkg.hasUnpinnedDependency());
 
 if (allUnpinned.length > 0) {
-	// warn the user
+	printUnpinnedDependencies();
 } else {
 	console.log("It seems all your dependencies are pinned :)");
 	process.exit(0);
+}
+
+function printUnpinnedDependencies() {
+	for (const packagesWithUnpinned of allUnpinned) {
+		console.group(`Package: ${packagesWithUnpinned.path}`);
+
+		const unpinnedDeps = packagesWithUnpinned.getUnpinnedDependencies();
+
+		for (const prodDeps of unpinnedDeps) {
+			console.log(`→ ${prodDeps.name}@${prodDeps.version}`);
+		}
+		console.groupEnd();
+	}
 }
 
 function createPackage(pkg: Package) {
@@ -23,51 +40,33 @@ function createPackage(pkg: Package) {
 		version: string;
 	};
 
-	const unpinnedList: {
-		dev: Dependency[];
-		prod: Dependency[];
-	} = {
-		dev: [],
-		prod: [],
+	const unpinnedList: Dependency[] = [];
+
+	const allDependencies = {
+		...(pkg.packageJson.devDependencies || {}),
+		...(pkg.packageJson.dependencies || {}),
 	};
 
-	if (pkg.packageJson.devDependencies) {
-		for (const [dependency, version] of Object.entries(
-			pkg.packageJson.devDependencies,
-		)) {
-			if (version.includes("^")) {
-				unpinnedList.dev.push({
-					name: dependency,
-					version,
-				});
-			}
-		}
-	}
-
-	if (pkg.packageJson.dependencies) {
-		for (const [dependency, version] of Object.entries(
-			pkg.packageJson.dependencies,
-		)) {
-			if (version.includes("^")) {
-				unpinnedList.prod.push({
-					name: dependency,
-					version,
-				});
-			}
+	for (const [dependency, version] of Object.entries(allDependencies)) {
+		if (version.includes("^")) {
+			unpinnedList.push({
+				name: dependency,
+				version,
+			});
 		}
 	}
 
 	return {
-		name: pkg.packageJson.name,
+		path: `${pkg.dir}/package.json`,
 		getUnpinnedDependencies,
 		hasUnpinnedDependency,
 	};
 
-	function getUnpinnedDependencies(): typeof unpinnedList | null {
-		return structuredClone(unpinnedList);
+	function getUnpinnedDependencies(): Dependency[] {
+		return [...unpinnedList];
 	}
 
 	function hasUnpinnedDependency(): boolean {
-		return unpinnedList.dev.length > 0 || unpinnedList.prod.length > 0;
+		return unpinnedList.length > 0;
 	}
 }
