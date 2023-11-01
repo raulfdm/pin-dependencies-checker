@@ -1,12 +1,12 @@
-import { packageJsonPath } from './config';
-import { PackageJsonDeps } from './types';
+import { packageJsonPath } from "./config";
+import { PackageJsonDeps } from "./types";
 
 export function getDependenciesFromPackageJson(): PackageJsonDeps {
-  const {
-    dependencies,
-    peerDependencies,
-    devDependencies,
-  } = require(packageJsonPath);
+	const {
+		dependencies,
+		peerDependencies,
+		devDependencies,
+	} = require(packageJsonPath);
 
-  return { dependencies, peerDependencies, devDependencies };
+	return { dependencies, peerDependencies, devDependencies };
 }
