@@ -1,40 +1,38 @@
 {
-  "name": "pin-dependencies-checker",
-  "version": "1.0.6",
-  "main": "index.js",
-  "repository": "git@github.com:raulfdm/pin-dependencies-checker.git",
-  "author": "Raul Melo <melo.raulf@gmail.com>",
-  "license": "MIT",
-  "bin": {
-    "pin-checker": "./dist/index.js"
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "dev": "rollup -c --watch",
-    "build": "rollup -c",
-    "check": "biome check .",
-    "format": "biome format .",
-    "lint": "biome lint .",
-    "prepare": "husky install"
-  },
-  "dependencies": {
-    "node-args": "~2.1.8"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.3.3",
-    "@types/node": "20",
-    "husky": "8.0.3",
-    "typescript": "3.9.3"
-  },
-  "packageManager": "pnpm@8.10.0",
-  "engines": {
-    "node": "20",
-    "pnpm": "8.10.0"
-  },
-  "volta": {
-    "node": "20.9.0",
-    "pnpm": "8.10.0"
-  }
+	"name": "pin-dependencies-checker",
+	"version": "1.0.6",
+	"main": "index.js",
+	"repository": "git@github.com:raulfdm/pin-dependencies-checker.git",
+	"author": "Raul Melo <melo.raulf@gmail.com>",
+	"license": "MIT",
+	"bin": {
+		"pin-checker": "./dist/index.js"
+	},
+	"files": ["dist"],
+	"scripts": {
+		"dev": "rollup -c --watch",
+		"build": "rollup -c",
+		"check": "biome check .",
+		"format": "biome format .",
+		"lint": "biome lint .",
+		"prepare": "husky install"
+	},
+	"dependencies": {
+		"node-args": "~2.1.8"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.3.3",
+		"@types/node": "20",
+		"husky": "8.0.3",
+		"typescript": "5.2.2"
+	},
+	"packageManager": "pnpm@8.10.0",
+	"engines": {
+		"node": "20",
+		"pnpm": "8.10.0"
+	},
+	"volta": {
+		"node": "20.9.0",
+		"pnpm": "8.10.0"
+	}
 }
