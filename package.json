@@ -14,12 +14,14 @@
   "scripts": {
     "dev": "rollup -c --watch",
     "build": "rollup -c",
-    "lint": "eslint . && yarn tsc"
+    "check": "biome check .",
+    "lint": "biome lint ."
   },
   "dependencies": {
     "node-args": "~2.1.8"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.3.3",
     "@types/node": "20",
     "husky": "4.2.5",
     "typescript": "3.9.3"
