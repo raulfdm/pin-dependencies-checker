@@ -16,6 +16,7 @@ const allUnpinned = allPackages.filter((pkg) => pkg.hasUnpinnedDependency());
 
 if (allUnpinned.length > 0) {
 	printUnpinnedDependencies();
+	process.exit(1);
 } else {
 	console.log("It seems all your dependencies are pinned :)");
 	process.exit(0);
