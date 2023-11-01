@@ -32,8 +32,6 @@
     "@types/prettyjson": "0.0.29",
     "husky": "4.2.5",
     "jest": "26.0.1",
-    "rollup": "2.10.5",
-    "rollup-plugin-auto-external": "2.0.0",
     "tslib": "2.0.0",
     "typescript": "3.9.3"
   }
