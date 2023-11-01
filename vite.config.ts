@@ -13,8 +13,8 @@ export default defineConfig({
 	build: {
 		outDir: "dist",
 		lib: {
-			entry: "src/main.ts",
-			formats: ["cjs", "es"],
+			entry: "lib/index.ts",
+			formats: ["es"],
 		},
 		target: "node18",
 		rollupOptions: {

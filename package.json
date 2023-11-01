@@ -1,15 +1,16 @@
 {
 	"name": "pin-dependencies-checker",
-	"version": "1.0.6",
+	"version": "2.0.0-alpha",
 	"repository": "git@github.com:raulfdm/pin-dependencies-checker.git",
 	"author": "Raul Melo <melo.raulf@gmail.com>",
 	"license": "MIT",
 	"type": "module",
 	"bin": {
-		"pin-checker": "./dist/index.js"
+		"pin-checker": "./bin/index.js"
 	},
-	"files": ["dist"],
+	"files": ["dist", "bin"],
 	"scripts": {
+		"prepack": "pnpm run build",
 		"dev": "vite --watch",
 		"test": "vitest",
 		"build": "vite build",
@@ -19,12 +20,12 @@
 		"prepare": "husky install"
 	},
 	"dependencies": {
-		"node-args": "~2.1.8"
+		"@manypkg/get-packages": "2.2.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.3.3",
 		"@types/node": "20",
-		"husky": "8.0.3",
+		"husky": "^8.0.3",
 		"typescript": "5.2.2",
 		"vite": "4.5.0",
 		"vitest": "0.34.6"
