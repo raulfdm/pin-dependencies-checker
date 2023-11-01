@@ -4,9 +4,9 @@ import {
 	hasValueOr,
 	isEmpty,
 	isUndefined,
-} from "../helpers";
+} from "./helpers";
 
-jest.mock("../config", () => ({ appConfig: jest.fn() }));
+vi.mock("../config", () => ({ appConfig: vi.fn() }));
 
 describe("fn: isEmpty", () => {
 	it("returns true when an object is empty", () => {
