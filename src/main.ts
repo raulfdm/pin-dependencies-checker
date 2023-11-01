@@ -1,3 +1,4 @@
+#!/bin/node
 import { appConfig } from "./config";
 import { getDependenciesFromPackageJson } from "./dependencies";
 import {

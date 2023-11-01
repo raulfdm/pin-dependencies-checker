@@ -22,8 +22,8 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      # - name: Unit Tests
-      #   run: pnpm test
+      - name: Unit Tests
+        run: pnpm test
 
       - name: Lint
         run: pnpm lint
