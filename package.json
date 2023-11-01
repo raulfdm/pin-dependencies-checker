@@ -34,5 +34,14 @@
     "jest": "26.0.1",
     "tslib": "2.0.0",
     "typescript": "3.9.3"
+  },
+  "packageManager": "pnpm@8.10.0",
+  "engines": {
+    "node": "20",
+    "pnpm": "8.10.0"
+  },
+  "volta": {
+    "node": "20.9.0",
+    "pnpm": "8.10.0"
   }
 }
