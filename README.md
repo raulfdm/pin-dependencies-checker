@@ -21,9 +21,9 @@ pnpm add lodash
 
 ```json
 {
-	"dependencies": {
-		"lodash": "^4.17.21"
-	}
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
 }
 ```
 
