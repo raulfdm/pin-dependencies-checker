@@ -9,12 +9,13 @@ function isExternal(id: string) {
 export default defineConfig({
 	test: {
 		globals: true,
+		clearMocks: true,
 	},
 	build: {
 		outDir: "dist",
 		lib: {
-			entry: "src/main.ts",
-			formats: ["cjs", "es"],
+			entry: "lib/index.ts",
+			formats: ["es"],
 		},
 		target: "node18",
 		rollupOptions: {
