@@ -34,9 +34,10 @@ jobs:
       - name: Build
         run: pnpm build
 
-      # - name: Publish Package
-      #   run: pnpm dlx semantic-release
-      #   env:
-      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #     GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      #   if: github.ref == 'refs/heads/master'
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        with:
+          publish: pnpm publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
