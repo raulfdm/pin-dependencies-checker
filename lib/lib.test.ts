@@ -1,12 +1,15 @@
-import type { Package as GetPackage } from "@manypkg/get-packages";
+import type { Packages as GetPackages } from "@manypkg/get-packages";
 import type { CliConfigType } from "./commands.js";
 import { lib } from "./lib.js";
 
 const mockExitWithSuccess = vi.fn();
 const mockExitWithError = vi.fn();
+const mockLog = vi.fn();
 vi.mock("./utils.js", () => ({
 	exitWithSuccess: () => mockExitWithSuccess(),
 	exitWithError: () => mockExitWithError(),
+	// biome-ignore lint/suspicious/noExplicitAny: I don't care here
+	log: (...args: any) => mockLog(...args),
 }));
 
 const mockGetPackages = vi.fn().mockResolvedValue({
@@ -27,6 +30,7 @@ vi.mock("./commands.js", () => ({
 describe("lib", () => {
 	beforeEach(() => {
 		doMockCommands();
+		doMockGetPackages();
 	});
 
 	describe("no pinned lib", () => {
@@ -35,12 +39,10 @@ describe("lib", () => {
 			expect(mockExitWithSuccess).toHaveBeenCalled();
 		});
 
-		it.skip("prints a nice message", async () => {
-			const consoleLogSpy = vi.spyOn(console, "log");
-
+		it("prints a nice message", async () => {
 			await lib();
 
-			expect(consoleLogSpy).toHaveBeenCalledWith(
+			expect(mockLog).toHaveBeenCalledWith(
 				"It seems all your dependencies are pinned :)",
 			);
 		});
@@ -48,7 +50,7 @@ describe("lib", () => {
 
 	describe("found pinned lib", () => {
 		it("exits process with 1", async () => {
-			mockGetPackages.mockReturnValue({
+			doMockGetPackages({
 				packages: [
 					{
 						dir: "/path/to/dir",
@@ -69,10 +71,8 @@ describe("lib", () => {
 		});
 
 		describe("prod dependencies", () => {
-			it("prints all pinned dependencies by default", async () => {
-				const consoleLogSpy = vi.spyOn(console, "log");
-
-				mockGetPackages.mockReturnValue({
+			beforeEach(() => {
+				doMockGetPackages({
 					packages: [
 						{
 							dir: "/path/to/dir",
@@ -87,37 +87,23 @@ describe("lib", () => {
 						},
 					],
 				});
+			});
 
+			it("prints all pinned dependencies by default", async () => {
 				await lib();
 
-				const [firstPrint] = consoleLogSpy.mock.calls[0] || [];
+				const [firstPrint] = mockLog.mock.calls[0] || [];
 				expect(firstPrint).toMatchInlineSnapshot(
 					'"Package: /path/to/dir/package.json"',
 				);
 
-				const [secondPrint] = consoleLogSpy.mock.calls[1] || [];
+				const [secondPrint] = mockLog.mock.calls[1] || [];
 				expect(secondPrint).toMatchInlineSnapshot('"→ test-dep@^1.0.0"');
 			});
 
 			it("does not fail if --deps=false but there are unpinned production dependencies", async () => {
 				doMockCommands({
 					deps: false,
-				});
-
-				mockGetPackages.mockReturnValue({
-					packages: [
-						{
-							dir: "/path/to/dir",
-							relativeDir: "dir",
-							packageJson: {
-								name: "test",
-								version: "1.0.0",
-								dependencies: {
-									"test-dep": "^1.0.0",
-								},
-							},
-						},
-					],
 				});
 
 				await lib();
@@ -127,37 +113,37 @@ describe("lib", () => {
 		});
 
 		describe("dev dependencies", () => {
-			const mockPackage = {
-				dir: "/path/to/dir",
-				relativeDir: "dir",
-				packageJson: {
-					name: "test",
-					version: "1.0.0",
-					devDependencies: {
-						"test-dev-dep": "^2.0.0",
-						"another-test-dev-dep": "^1.0.0",
-					},
-				},
-			} as GetPackage;
+			beforeEach(() => {
+				doMockGetPackages({
+					packages: [
+						{
+							dir: "/path/to/dir",
+							relativeDir: "dir",
+							packageJson: {
+								name: "test",
+								version: "1.0.0",
+								devDependencies: {
+									"test-dev-dep": "^2.0.0",
+									"another-test-dev-dep": "^1.0.0",
+								},
+							},
+						},
+					],
+				});
+			});
 
 			it("prints all pinned dependencies by default", async () => {
-				const consoleLogSpy = vi.spyOn(console, "log");
-
-				mockGetPackages.mockReturnValue({
-					packages: [mockPackage],
-				});
-
 				await lib();
 
-				const [firstPrint] = consoleLogSpy.mock.calls[0] || [];
+				const [firstPrint] = mockLog.mock.calls[0] || [];
 				expect(firstPrint).toMatchInlineSnapshot(
 					'"Package: /path/to/dir/package.json"',
 				);
 
-				const [secondPrint] = consoleLogSpy.mock.calls[1] || [];
+				const [secondPrint] = mockLog.mock.calls[1] || [];
 				expect(secondPrint).toMatchInlineSnapshot('"→ test-dev-dep@^2.0.0"');
 
-				const [thirdPrint] = consoleLogSpy.mock.calls[2] || [];
+				const [thirdPrint] = mockLog.mock.calls[2] || [];
 				expect(thirdPrint).toMatchInlineSnapshot(
 					'"→ another-test-dev-dep@^1.0.0"',
 				);
@@ -168,10 +154,6 @@ describe("lib", () => {
 					devDeps: false,
 				});
 
-				mockGetPackages.mockReturnValue({
-					packages: [mockPackage],
-				});
-
 				await lib();
 
 				expect(mockExitWithSuccess).toHaveBeenCalled();
@@ -179,16 +161,75 @@ describe("lib", () => {
 		});
 
 		describe("peer dependencies", () => {
-			it.todo("does not print pinned dependencies by default", async () => {});
-			it.todo("prints pinned dependencies if --peerDeps=true", async () => {});
+			beforeEach(() => {
+				doMockGetPackages({
+					packages: [
+						{
+							dir: "/path/to/dir",
+							relativeDir: "dir",
+							packageJson: {
+								name: "test",
+								version: "1.0.0",
+								peerDependencies: {
+									"react-dom": "^18.0.0",
+								},
+							},
+						},
+					],
+				});
+			});
+
+			it("does not print pinned dependencies by default", async () => {
+				await lib();
+
+				expect(mockExitWithSuccess).toHaveBeenCalled();
+			});
+
+			it("prints pinned dependencies if --peerDeps=true", async () => {
+				doMockCommands({
+					peerDeps: true,
+				});
+
+				await lib();
+
+				expect(mockExitWithError).toHaveBeenCalled();
+			});
 		});
 
 		describe("optional dependencies", () => {
-			it.todo("does not print pinned dependencies by default", async () => {});
-			it.todo(
-				"prints pinned dependencies if --optionalDeps=true",
-				async () => {},
-			);
+			beforeEach(() => {
+				doMockGetPackages({
+					packages: [
+						{
+							dir: "/path/to/dir",
+							relativeDir: "dir",
+							packageJson: {
+								name: "test",
+								version: "1.0.0",
+								optionalDependencies: {
+									lodash: "^4.0.0",
+								},
+							},
+						},
+					],
+				});
+			});
+
+			it("does not print pinned dependencies by default", async () => {
+				await lib();
+
+				expect(mockExitWithSuccess).toHaveBeenCalled();
+			});
+
+			it("prints pinned dependencies if --optionalDeps=true", async () => {
+				doMockCommands({
+					optionalDeps: true,
+				});
+
+				await lib();
+
+				expect(mockExitWithError).toHaveBeenCalled();
+			});
 		});
 	});
 });
@@ -207,4 +248,16 @@ function doMockCommands(commands: Partial<CliConfigType> = {}) {
 	};
 
 	mockCommands.mockReturnValue(config);
+}
+
+function doMockGetPackages(mockReturn: Partial<GetPackages> = {}) {
+	const defaultReturn = {
+		packages: [],
+		rootPackage: undefined,
+	} satisfies Partial<GetPackages>;
+
+	mockGetPackages.mockReturnValue({
+		...defaultReturn,
+		...mockReturn,
+	});
 }
