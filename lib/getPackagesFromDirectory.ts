@@ -1,5 +1,5 @@
 import { getPackages } from "@manypkg/get-packages";
-import { createPackage } from "./createPackage.js";
+import { createPackage } from "./createPackage";
 
 export async function getPackagesFromDirectory() {
 	const { packages, rootPackage } = await getPackages(process.cwd());

@@ -1,6 +1,6 @@
-import type { Package } from "./createPackage.js";
-import { getPackagesFromDirectory } from "./getPackagesFromDirectory.js";
-import { exitWithError, exitWithSuccess, log } from "./utils.js";
+import type { Package } from "./createPackage";
+import { getPackagesFromDirectory } from "./getPackagesFromDirectory";
+import { exitWithError, exitWithSuccess, log } from "./utils";
 
 export async function lib() {
 	const allPackages = await getPackagesFromDirectory();

@@ -1,11 +1,11 @@
 import type { Packages as GetPackages } from "@manypkg/get-packages";
-import type { CliConfigType } from "./getCliConfig.js";
-import { lib } from "./lib.js";
+import type { CliConfigType } from "./getCliConfig";
+import { lib } from "./lib";
 
 const mockExitWithSuccess = vi.fn();
 const mockExitWithError = vi.fn();
 const mockLog = vi.fn();
-vi.mock("./utils.js", () => ({
+vi.mock("./utils", () => ({
 	exitWithSuccess: () => mockExitWithSuccess(),
 	exitWithError: () => mockExitWithError(),
 	// biome-ignore lint/suspicious/noExplicitAny: I don't care here

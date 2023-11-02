@@ -1,3 +1,3 @@
-import { lib } from "./lib.js";
+import { lib } from "./lib";
 
 await lib();
