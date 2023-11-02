@@ -1,170 +1,183 @@
-# Pin Dependencies Checker CLI <!-- omit in toc -->
+# Pin Dependencies Checker CLI
 
-[![License](https://img.shields.io/npm/l/pin-dependencies-checker.svg)](./LICENSE)
-[![npm](https://img.shields.io/npm/v/pin-dependencies-checker.svg)](https://www.npmjs.com/package/pin-dependencies-checker)
-[![Badge](https://github.com/raulfdm/pin-dependencies-checker/workflows/Checker%20and%20Deploy/badge.svg)](https://github.com/raulfdm/pin-dependencies-checker/actions?query=branch%3Amaster)
-[![Maintainability](https://api.codeclimate.com/v1/badges/d6c846b63dc5456e3794/maintainability)](https://codeclimate.com/github/raulfdm/pin-dependencies-checker/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/d6c846b63dc5456e3794/test_coverage)](https://codeclimate.com/github/raulfdm/pin-dependencies-checker/test_coverage)
+> Sometimes you need a reminder for mundane tasks.
 
-> Sometimes you need some reminder for boring tasks
-
-## Table of Contents <!-- omit in toc -->
+## Table of Contents
 
 - [Why](#why)
-- [How it works](#how-it-works)
-- [Getting started](#getting-started)
-  - [Global](#global)
-  - [From registry (npx)](#from-registry-npx)
-  - [Local](#local)
-  - [Git hooks](#git-hooks)
+- [How it Works](#how-it-works)
+- [Getting Started](#getting-started)
 - [Arguments](#arguments)
-  - [`--peerDeps`](#--peerdeps)
-  - [`--deps`](#--deps)
-  - [`--devDeps`](#--devdeps)
-- [TODOS](#todos)
+- [Contributing](#contributing)
 - [License](#license)
 
 ## Why
 
-The development world is wild. Every team has its own ways to do things.
-
-Some, trust that those open source libraries always strictly follow semantic versing and when installing dependencies, just accept that the `caret` (^) will be fine. But some... want to have max control about everything and like to have all dependencies under their control.
-
-Personally, I don't mind and don't judge. Both approaches have pros and cons. [At Renovate's blog, they wrote an entire post](https://docs.renovatebot.com/dependency-pinning/) explaining when we should pin dependencies version.
-
-What I do mind is having to remember to pin a dependency version every time I install one. Also when my PR is almost ready to be merged and I receive a comment message like:
-
-> "Hey, you forgot to pin this dependency. (;"
-
-So then I've decided to automate this process. :)
-
-## How it works
-
-The idea is quite simple. This CLI:
-
-1. Reads a `package.json` file from the folder you're calling it;
-2. Based on the config (default or args passed), it'll search in each dependency version if it has caret (`^`);
-3. If so, it'll print a list of all dependencies unpinned and exit with error (`process.exit(1)`), otherwise no errors and exit with `process.exit(0)`
-
-## Getting started
-
-You can use this CLI globally or as a project dependency.
-
-### Global
+When installing dependencies without specifying a version, package managers (yarn, npm, pnpm, etc.) will, by default, install the latest published version with a caret `^`:
 
 ```bash
-yarn global add pin-dependencies-checker
-
-## Or
-
-npm install -g pin-dependencies-checker
+pnpm add lodash
 ```
-
-Then, in your project root dir (where the package.json file is located), you can just call
-
-```bash
-pin-checker
-```
-
-### From registry (npx)
-
-An alternative from installing it globally it might be using it via `npx`. If you're not familiar with this concept [check this blog post](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b) but in a nutshell, it can execute packages directly from the registry.
-
-It's good for CLI environments where you can create a step to run this CLI and based on the output, it'll fail or not your pipeline.
-
-```bash
-npx pin-dependencies-checker
-```
-
-### Local
-
-If you want to have it as part of your project:
-
-```bash
-yarn global add pin-dependencies-checker
-
-# Or via npm...
-
-npm install -g pin-dependencies-checker
-```
-
-Then, in your project root dir (where the package.json file is located), you can just call
-
-```bash
-yarn pin-checker
-```
-
-### Git hooks
-
-The goal of this project is automating a boring task, right? So you can add as a pre-commit hook using [`husky`](https://github.com/typicode/husky).
-
-For that, install `husky` as `devDependency`:
-
-```bash
-yarn add -D husky
-
-# Or via npm...
-
-npm install --save-dev husky
-```
-
-After that, open your `package.json` file and add husky config with pre-commit:
 
 ```json
 {
-  "husky": {
-    "pre-commit": "pin-checker"
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }
 ```
 
+This is termed a "ranged" version.
+
+In the lock file, it will be registered that `lodash` is installed on version `4.17.21` OR HIGHER... and this is where issues arise.
+
+Suppose lodash `4.18.0` is released, and it removes or alters an API our codebase depends on. If I need to regenerate my `lockfile` for any reason, the package manager will again fetch the latest version 4 of `lodash`. Instead of installing `4.17.21`, it will fetch the new `4.18.0`.
+
+If we have unit tests, builds, etc., we'll likely encounter issues without understanding the cause. Our package.json hasn't changed, right? However, it's the `lockfile` that determines which dependencies get installed.
+
+One way to ensure consistent versions is to avoid installing ranged versions. This can be achieved in various ways depending on the package manager:
+
+```bash
+pnpm add --save-exact lodash
+```
+
+Or, using pnpm, it can be defined in `.npmrc`:
+
+```
+save-prefix=''
+```
+
+Alternatively, you can use this tool as a pre-commit reminder to assess all dependencies you've installed and check for ranged versions. 😅
+
+> [!IMPORTANT]  
+> Renovate provides an [extensive article](https://docs.renovatebot.com/dependency-pinning/) detailing the issues with ranged versions. I highly recommend reading it.
+
+## How it Works
+
+The process is straightforward:
+
+1. Scan all `package.json` files in the current work directory.
+2. Identify all dependencies with a caret (`^`).
+3. If any are found, the CLI will list them and exit with an error.
+4. Otherwise, it will exit successfully.
+
+## Getting Started
+
+You can use this CLI directly from the registry via [`npx`](https://docs.npmjs.com/cli/v8/commands/npx) or [`pnpm dlx`](https://pnpm.io/cli/dlx):
+
+```bash
+pnpm dlx pin-dependencies-checker
+
+# OR using npm
+
+npx pin-dependencies-checker
+```
+
+Alternatively, add it to your project's dev dependencies:
+
+```bash
+pnpm add --save-exact --save-dev pin-dependencies-checker
+# Or the equivalent command for your package manager
+```
+
+Then run:
+
+```bash
+pnpm pin-checker
+# Or for npm or yarn
+npx pin-checker
+```
+
+### Git Hooks
+
+You can automate the CLI execution using a git hook (e.g., pre-commit).
+
+Many JS projects use [`husky`](https://github.com/typicode/husky) for this purpose.
+
+Simply add the command to your `pre-commit` script:
+
+```bash
+# Other commands and setup
+pnpm pin-checker
+
+# Or using npx
+npx pin-checker
+```
+
 ## Arguments
 
-Maybe you only want to check for `devDependency` or only for `dependency`. You can customize that via cli args:
+By default, this CLI scans only `dependencies` and `devDependencies`. This behavior can be modified with CLI arguments.
 
-> Note: you can combine multiple args.
-
-### `--peerDeps`
+### `--no-deps`
 
 > Default: false
 
-To enable `peerDependencies`:
+Skips the `dependencies` evaluation:
 
 ```bash
-yarn pin-checker --peerDeps=true
+pnpm pin-checker --no-deps
 ```
 
-All `perDependencies`, `dependencies`, and `devDependencies` will be evaluated.
+### `--no-dev-deps`
 
-### `--deps`
+> Default: false
 
-> Default: true
-
-To disable dev dependencies:
+Skips the `devDependencies` evaluation:
 
 ```bash
-yarn pin-checker --deps=false
+pnpm pin-checker --no-dev-deps
 ```
 
-Only `devDependencies` will be evaluated.
+### `--peer-deps`
 
-### `--devDeps`
+> Default: false
 
-> Default: true
+Evaluates `peerDependencies`:
 
-To disable dev dependencies:
+> **NOTE**
+> Peer dependencies are primarily for libraries, indicating to the package manager the necessary version for the library to function correctly. You likely don't want to verify this.
 
 ```bash
-yarn pin-checker --devDeps=false
+pnpm pin-checker --peer-deps
 ```
 
-Only `dependencies` will be evaluated.
+### `--optional-deps`
 
-## TODOS
+> Default: false
 
-- Accept `--path` for a custom `package.json` path
-- Maybe check for `tilde` by default and other characters like `<`, `>` via arguments
+Evaluates [`optionalDependencies`](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#optionaldependencies):
+
+```bash
+pnpm pin-checker --optional-deps
+```
+
+## Contributing
+
+To run this project, you'll need:
+
+- Node 20 or higher
+- pnpm
+
+After cloning, install the dependencies:
+
+```bash
+pnpm install
+```
+
+You can either link the package globally or run the command:
+
+```bash
+pnpm run dev
+```
+
+This will evaluate the current repository, which can be handy for quick tests.
+
+To run unit tests:
+
+```bash
+pnpm run test
+```
 
 ## License
 
-MIT
+[MIT](./LICENSE)
