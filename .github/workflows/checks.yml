@@ -1,9 +1,9 @@
-name: Quality and deploy
+name: Code checks
 on:
   - push
 
 jobs:
-  ci:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - name: Branch checkout
