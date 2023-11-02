@@ -42,9 +42,11 @@ describe("lib", () => {
 		it("prints a nice message", async () => {
 			await lib();
 
-			expect(mockLog).toHaveBeenCalledWith(
-				"It seems all your dependencies are pinned :)",
-			);
+			expect(mockLog.mock.calls.flat()).toMatchInlineSnapshot(`
+				[
+				  "It seems all your dependencies are pinned :)",
+				]
+			`);
 		});
 	});
 
@@ -92,13 +94,12 @@ describe("lib", () => {
 			it("prints all pinned dependencies by default", async () => {
 				await lib();
 
-				const [firstPrint] = mockLog.mock.calls[0] || [];
-				expect(firstPrint).toMatchInlineSnapshot(
-					'"Package: /path/to/dir/package.json"',
-				);
-
-				const [secondPrint] = mockLog.mock.calls[1] || [];
-				expect(secondPrint).toMatchInlineSnapshot('"→ test-dep@^1.0.0"');
+				expect(mockLog.mock.calls.flat()).toMatchInlineSnapshot(`
+					[
+					  "Package: /path/to/dir/package.json",
+					  "→ test-dep@^1.0.0",
+					]
+				`);
 			});
 
 			it("does not fail if --deps=false but there are unpinned production dependencies", async () => {
@@ -135,18 +136,13 @@ describe("lib", () => {
 			it("prints all pinned dependencies by default", async () => {
 				await lib();
 
-				const [firstPrint] = mockLog.mock.calls[0] || [];
-				expect(firstPrint).toMatchInlineSnapshot(
-					'"Package: /path/to/dir/package.json"',
-				);
-
-				const [secondPrint] = mockLog.mock.calls[1] || [];
-				expect(secondPrint).toMatchInlineSnapshot('"→ test-dev-dep@^2.0.0"');
-
-				const [thirdPrint] = mockLog.mock.calls[2] || [];
-				expect(thirdPrint).toMatchInlineSnapshot(
-					'"→ another-test-dev-dep@^1.0.0"',
-				);
+				expect(mockLog.mock.calls.flat()).toMatchInlineSnapshot(`
+					[
+					  "Package: /path/to/dir/package.json",
+					  "→ test-dev-dep@^2.0.0",
+					  "→ another-test-dev-dep@^1.0.0",
+					]
+				`);
 			});
 
 			it("does not print pinned dependencies if --no-dev-deps", async () => {
@@ -230,6 +226,48 @@ describe("lib", () => {
 
 				expect(mockExitWithError).toHaveBeenCalled();
 			});
+		});
+	});
+
+	describe("monorepo", () => {
+		it("includes the root package.json if found", async () => {
+			doMockGetPackages({
+				rootPackage: {
+					dir: "/path/to/root",
+					relativeDir: "root",
+					packageJson: {
+						name: "root",
+						version: "1.0.0",
+						dependencies: {
+							"root-dep": "^1.0.0",
+						},
+					},
+				},
+				packages: [
+					{
+						dir: "/path/to/dir",
+						relativeDir: "dir",
+						packageJson: {
+							name: "test",
+							version: "1.0.0",
+							dependencies: {
+								"test-dep": "^1.0.0",
+							},
+						},
+					},
+				],
+			});
+
+			await lib();
+
+			expect(mockLog.mock.calls.flat()).toMatchInlineSnapshot(`
+				[
+				  "Package: /path/to/root/package.json",
+				  "→ root-dep@^1.0.0",
+				  "Package: /path/to/dir/package.json",
+				  "→ test-dep@^1.0.0",
+				]
+			`);
 		});
 	});
 });
