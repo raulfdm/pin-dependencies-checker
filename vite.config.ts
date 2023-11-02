@@ -9,6 +9,7 @@ function isExternal(id: string) {
 export default defineConfig({
 	test: {
 		globals: true,
+		clearMocks: true,
 	},
 	build: {
 		outDir: "dist",
