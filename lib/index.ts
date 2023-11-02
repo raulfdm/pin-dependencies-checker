@@ -1,4 +1,6 @@
 import { type Package, getPackages } from "@manypkg/get-packages";
+import "./commands";
+import { cliConfig } from "./commands";
 
 const { packages, rootPackage } = await getPackages(process.cwd());
 
@@ -43,12 +45,39 @@ function createPackage(pkg: Package) {
 
 	const unpinnedList: Dependency[] = [];
 
-	const allDependencies = {
-		...(pkg.packageJson.devDependencies || {}),
-		...(pkg.packageJson.dependencies || {}),
-	};
+	const allDependencies = new Map<string, string>();
 
-	for (const [dependency, version] of Object.entries(allDependencies)) {
+	if (cliConfig.deps && pkg.packageJson.dependencies) {
+		for (const [dep, version] of Object.entries(pkg.packageJson.dependencies)) {
+			allDependencies.set(dep, version);
+		}
+	}
+
+	if (cliConfig.devDeps && pkg.packageJson.devDependencies) {
+		for (const [dep, version] of Object.entries(
+			pkg.packageJson.devDependencies,
+		)) {
+			allDependencies.set(dep, version);
+		}
+	}
+
+	if (cliConfig.peerDeps && pkg.packageJson.peerDependencies) {
+		for (const [dep, version] of Object.entries(
+			pkg.packageJson.peerDependencies,
+		)) {
+			allDependencies.set(dep, version);
+		}
+	}
+
+	if (cliConfig.optionalDeps && pkg.packageJson.optionalDependencies) {
+		for (const [dep, version] of Object.entries(
+			pkg.packageJson.optionalDependencies,
+		)) {
+			allDependencies.set(dep, version);
+		}
+	}
+
+	for (const [dependency, version] of allDependencies.entries()) {
 		if (version.includes("^")) {
 			unpinnedList.push({
 				name: dependency,
