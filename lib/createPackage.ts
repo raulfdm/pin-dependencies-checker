@@ -1,9 +1,11 @@
 import type { Package as GetPackage } from "@manypkg/get-packages";
-import { cliConfig } from "./getCliConfig";
+import { getCliConfig } from "./getCliConfig";
 
 export type Package = ReturnType<typeof createPackage>;
 
 export function createPackage(pkg: GetPackage) {
+	const cliConfig = getCliConfig();
+
 	type Dependency = {
 		name: string;
 		version: string;

@@ -2,6 +2,16 @@ import type { Packages as GetPackages } from "@manypkg/get-packages";
 import type { CliConfigType } from "./getCliConfig";
 import { lib } from "./lib";
 
+const mockGetPackages = vi.fn();
+vi.mock("@manypkg/get-packages", () => ({
+	getPackages: () => mockGetPackages(),
+}));
+
+const mockGetCliConfig = vi.fn();
+vi.mock("./getCliConfig", () => ({
+	getCliConfig: () => mockGetCliConfig(),
+}));
+
 const mockExitWithSuccess = vi.fn();
 const mockExitWithError = vi.fn();
 const mockLog = vi.fn();
@@ -10,21 +20,6 @@ vi.mock("./utils", () => ({
 	exitWithError: () => mockExitWithError(),
 	// biome-ignore lint/suspicious/noExplicitAny: I don't care here
 	log: (...args: any) => mockLog(...args),
-}));
-
-const mockGetPackages = vi.fn().mockResolvedValue({
-	packages: [],
-	rootPackage: null,
-});
-vi.mock("@manypkg/get-packages", () => ({
-	getPackages: () => mockGetPackages(),
-}));
-
-const mockCommands = vi.fn();
-vi.mock("./getCliConfig", () => ({
-	get cliConfig() {
-		return mockCommands();
-	},
 }));
 
 describe("lib", () => {
@@ -285,7 +280,7 @@ function doMockCommands(commands: Partial<CliConfigType> = {}) {
 		...commands,
 	};
 
-	mockCommands.mockReturnValue(config);
+	mockGetCliConfig.mockReturnValue(config);
 }
 
 function doMockGetPackages(mockReturn: Partial<GetPackages> = {}) {

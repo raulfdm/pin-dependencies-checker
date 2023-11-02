@@ -7,26 +7,30 @@ import type { RequiredDeep } from "type-fest";
  *
  * Here we just ensure to TS that the type will be a boolean `boolean`.
  */
-export type CliConfigType = RequiredDeep<typeof cliConfig>;
+export type CliConfigType = RequiredDeep<ReturnType<typeof getCliConfig>>;
 
-export const { values: cliConfig } = parseArgs({
-	args: process.argv.slice(2),
-	options: {
-		"no-deps": {
-			type: "boolean",
-			default: false,
+export function getCliConfig() {
+	const { values } = parseArgs({
+		args: process.argv.slice(2),
+		options: {
+			"no-deps": {
+				type: "boolean",
+				default: false,
+			},
+			"no-dev-deps": {
+				type: "boolean",
+				default: false,
+			},
+			"optional-deps": {
+				type: "boolean",
+				default: false,
+			},
+			"peer-deps": {
+				type: "boolean",
+				default: false,
+			},
 		},
-		"no-dev-deps": {
-			type: "boolean",
-			default: false,
-		},
-		"optional-deps": {
-			type: "boolean",
-			default: false,
-		},
-		"peer-deps": {
-			type: "boolean",
-			default: false,
-		},
-	},
-});
+	});
+
+	return values;
+}
