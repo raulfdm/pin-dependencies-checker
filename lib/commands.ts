@@ -1,15 +1,32 @@
-import parseArguments from "yargs-parser";
-import { z } from "zod";
+import { parseArgs } from "node:util";
+import type { RequiredDeep } from "type-fest";
 
-const argv = parseArguments(process.argv.slice(2));
+/**
+ * Even when we specify the default value, parseArgs will return
+ * a type of `boolean | undefined` for the option.
+ *
+ * Here we just ensure to TS that the type will be a boolean `boolean`.
+ */
+export type CliConfigType = RequiredDeep<typeof cliConfig>;
 
-const CliConfig = z.object({
-	peerDeps: z.boolean().default(false),
-	deps: z.boolean().default(true),
-	devDeps: z.boolean().default(true),
-	optionalDeps: z.boolean().default(false),
+export const { values: cliConfig } = parseArgs({
+	args: process.argv.slice(2),
+	options: {
+		"no-deps": {
+			type: "boolean",
+			default: false,
+		},
+		"no-dev-deps": {
+			type: "boolean",
+			default: false,
+		},
+		"optional-deps": {
+			type: "boolean",
+			default: false,
+		},
+		"peer-deps": {
+			type: "boolean",
+			default: false,
+		},
+	},
 });
-
-export type CliConfigType = z.infer<typeof CliConfig>;
-
-export const cliConfig = CliConfig.parse(argv);

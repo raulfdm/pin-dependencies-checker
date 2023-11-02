@@ -103,7 +103,7 @@ describe("lib", () => {
 
 			it("does not fail if --deps=false but there are unpinned production dependencies", async () => {
 				doMockCommands({
-					deps: false,
+					"no-deps": true,
 				});
 
 				await lib();
@@ -149,9 +149,9 @@ describe("lib", () => {
 				);
 			});
 
-			it("does not print pinned dependencies if --devDeps=false", async () => {
+			it("does not print pinned dependencies if --no-dev-deps", async () => {
 				doMockCommands({
-					devDeps: false,
+					"no-dev-deps": true,
 				});
 
 				await lib();
@@ -185,9 +185,9 @@ describe("lib", () => {
 				expect(mockExitWithSuccess).toHaveBeenCalled();
 			});
 
-			it("prints pinned dependencies if --peerDeps=true", async () => {
+			it("prints pinned dependencies if --peer-deps is present", async () => {
 				doMockCommands({
-					peerDeps: true,
+					"peer-deps": true,
 				});
 
 				await lib();
@@ -223,7 +223,7 @@ describe("lib", () => {
 
 			it("prints pinned dependencies if --optionalDeps=true", async () => {
 				doMockCommands({
-					optionalDeps: true,
+					"optional-deps": true,
 				});
 
 				await lib();
@@ -236,11 +236,11 @@ describe("lib", () => {
 
 function doMockCommands(commands: Partial<CliConfigType> = {}) {
 	const defaultConfig = {
-		peerDeps: false,
-		deps: true,
-		devDeps: true,
-		optionalDeps: false,
-	};
+		"peer-deps": false,
+		"no-deps": false,
+		"no-dev-deps": false,
+		"optional-deps": false,
+	} as CliConfigType;
 
 	const config = {
 		...defaultConfig,

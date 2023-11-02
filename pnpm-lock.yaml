@@ -8,12 +8,6 @@ dependencies:
   '@manypkg/get-packages':
     specifier: 2.2.0
     version: 2.2.0
-  yargs-parser:
-    specifier: 21.1.1
-    version: 21.1.1
-  zod:
-    specifier: 3.22.4
-    version: 3.22.4
 
 devDependencies:
   '@biomejs/biome':
@@ -31,6 +25,9 @@ devDependencies:
   tsx:
     specifier: 3.14.0
     version: 3.14.0
+  type-fest:
+    specifier: 4.6.0
+    version: 4.6.0
   typescript:
     specifier: 5.2.2
     version: 5.2.2
@@ -963,6 +960,11 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
+  /type-fest@4.6.0:
+    resolution: {integrity: sha512-rLjWJzQFOq4xw7MgJrCZ6T1jIOvvYElXT12r+y0CC6u67hegDHaxcPqb2fZHOGlqxugGQPNB1EnTezjBetkwkw==}
+    engines: {node: '>=16'}
+    dev: true
+
   /typescript@5.2.2:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
@@ -1114,16 +1116,7 @@ packages:
       stackback: 0.0.2
     dev: true
 
-  /yargs-parser@21.1.1:
-    resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}
-    engines: {node: '>=12'}
-    dev: false
-
   /yocto-queue@1.0.0:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
     dev: true
-
-  /zod@3.22.4:
-    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
-    dev: false

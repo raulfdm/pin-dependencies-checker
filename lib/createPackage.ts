@@ -13,13 +13,13 @@ export function createPackage(pkg: GetPackage) {
 
 	const allDependencies = new Map<string, string>();
 
-	if (cliConfig.deps && pkg.packageJson.dependencies) {
+	if (cliConfig["no-deps"] === false && pkg.packageJson.dependencies) {
 		for (const [dep, version] of Object.entries(pkg.packageJson.dependencies)) {
 			allDependencies.set(dep, version);
 		}
 	}
 
-	if (cliConfig.devDeps && pkg.packageJson.devDependencies) {
+	if (cliConfig["no-dev-deps"] === false && pkg.packageJson.devDependencies) {
 		for (const [dep, version] of Object.entries(
 			pkg.packageJson.devDependencies,
 		)) {
@@ -27,7 +27,7 @@ export function createPackage(pkg: GetPackage) {
 		}
 	}
 
-	if (cliConfig.peerDeps && pkg.packageJson.peerDependencies) {
+	if (cliConfig["peer-deps"] && pkg.packageJson.peerDependencies) {
 		for (const [dep, version] of Object.entries(
 			pkg.packageJson.peerDependencies,
 		)) {
@@ -35,7 +35,7 @@ export function createPackage(pkg: GetPackage) {
 		}
 	}
 
-	if (cliConfig.optionalDeps && pkg.packageJson.optionalDependencies) {
+	if (cliConfig["optional-deps"] && pkg.packageJson.optionalDependencies) {
 		for (const [dep, version] of Object.entries(
 			pkg.packageJson.optionalDependencies,
 		)) {
