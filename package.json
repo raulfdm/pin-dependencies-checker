@@ -1,6 +1,6 @@
 {
 	"name": "pin-dependencies-checker",
-	"version": "2.0.0-alpha-2",
+	"version": "1.0.6",
 	"repository": "git@github.com:raulfdm/pin-dependencies-checker.git",
 	"author": "Raul Melo <melo.raulf@gmail.com>",
 	"license": "MIT",
