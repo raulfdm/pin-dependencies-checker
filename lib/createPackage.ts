@@ -1,5 +1,5 @@
 import type { Package as GetPackage } from "@manypkg/get-packages";
-import { cliConfig } from "./commands.js";
+import { cliConfig } from "./getCliConfig.js";
 
 export type Package = ReturnType<typeof createPackage>;
 

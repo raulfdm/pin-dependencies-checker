@@ -1,5 +1,5 @@
 import type { Packages as GetPackages } from "@manypkg/get-packages";
-import type { CliConfigType } from "./commands.js";
+import type { CliConfigType } from "./getCliConfig.js";
 import { lib } from "./lib.js";
 
 const mockExitWithSuccess = vi.fn();
@@ -21,7 +21,7 @@ vi.mock("@manypkg/get-packages", () => ({
 }));
 
 const mockCommands = vi.fn();
-vi.mock("./commands.js", () => ({
+vi.mock("./getCliConfig", () => ({
 	get cliConfig() {
 		return mockCommands();
 	},
