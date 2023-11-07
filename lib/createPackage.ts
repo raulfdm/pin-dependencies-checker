@@ -1,5 +1,6 @@
 import type { Package as GetPackage } from "@manypkg/get-packages";
 import { getCliConfig } from "./getCliConfig";
+import { versionIsPinned } from "./versionIsPinned";
 
 export type Package = ReturnType<typeof createPackage>;
 
@@ -46,7 +47,7 @@ export function createPackage(pkg: GetPackage) {
 	}
 
 	for (const [dependency, version] of allDependencies.entries()) {
-		if (version.includes("^")) {
+		if (!versionIsPinned(version)) {
 			unpinnedList.push({
 				name: dependency,
 				version,

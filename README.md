@@ -57,7 +57,9 @@ Alternatively, you can use this tool as a pre-commit reminder to assess all depe
 The process is straightforward:
 
 1. Scan all `package.json` files in the current work directory.
-2. Identify all dependencies with a caret (`^`).
+2. Identify all dependencies that:
+   - aren't valid semver versions (e.g. `1.2.3` or `4.5.6.alpha`)
+   - are URLs or GitHub repositories and don't contain a commitish string neither a semver string
 3. If any are found, the CLI will list them and exit with an error.
 4. Otherwise, it will exit successfully.
 
