@@ -1,5 +1,11 @@
 ## 2.0.0
 
+## 2.1.0
+
+### Minor Changes
+
+- a233e70: enhance console log
+
 ### Major Changes
 
 - 8206ed7: refactor entire lib.
