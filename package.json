@@ -8,10 +8,7 @@
 	"bin": {
 		"pin-checker": "./bin/index.js"
 	},
-	"files": [
-		"dist",
-		"bin"
-	],
+	"files": ["dist", "bin"],
 	"scripts": {
 		"prepack": "pnpm run build",
 		"dev": "tsx lib/index.ts",
@@ -23,7 +20,8 @@
 		"prepare": "husky install"
 	},
 	"dependencies": {
-		"@manypkg/get-packages": "2.2.0"
+		"@manypkg/get-packages": "2.2.0",
+		"consola": "3.2.3"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.3.3",

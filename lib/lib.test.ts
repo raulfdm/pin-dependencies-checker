@@ -1,4 +1,6 @@
 import type { Packages as GetPackages } from "@manypkg/get-packages";
+import consola from "consola";
+import type { PartialDeep } from "type-fest";
 import type { CliConfigType } from "./getCliConfig";
 import { lib } from "./lib";
 
@@ -18,12 +20,15 @@ const mockLog = vi.fn();
 vi.mock("./utils", () => ({
 	exitWithSuccess: () => mockExitWithSuccess(),
 	exitWithError: () => mockExitWithError(),
-	// biome-ignore lint/suspicious/noExplicitAny: I don't care here
-	log: (...args: any) => mockLog(...args),
 }));
 
 describe("lib", () => {
+	beforeAll(() => {
+		consola.wrapAll();
+	});
+
 	beforeEach(() => {
+		consola.mockTypes(() => mockLog);
 		doMockCommands();
 		doMockGetPackages();
 	});
@@ -39,7 +44,7 @@ describe("lib", () => {
 
 			expect(mockLog.mock.calls.flat()).toMatchInlineSnapshot(`
 				[
-				  "It seems all your dependencies are pinned :)",
+				  "All dependencies are pinned! 🙌",
 				]
 			`);
 		});
@@ -91,8 +96,12 @@ describe("lib", () => {
 
 				expect(mockLog.mock.calls.flat()).toMatchInlineSnapshot(`
 					[
-					  "Package: /path/to/dir/package.json",
-					  "→ test-dep@^1.0.0",
+					  "👮 It seems you have unpinned dependencies. Please remove the caret from then.",
+					  "-------- File --------
+					/path/to/dir/package.json
+
+					-------- Dependencies --------
+					\\"test-dep\\": \\"^1.0.0\\"",
 					]
 				`);
 			});
@@ -133,9 +142,13 @@ describe("lib", () => {
 
 				expect(mockLog.mock.calls.flat()).toMatchInlineSnapshot(`
 					[
-					  "Package: /path/to/dir/package.json",
-					  "→ test-dev-dep@^2.0.0",
-					  "→ another-test-dev-dep@^1.0.0",
+					  "👮 It seems you have unpinned dependencies. Please remove the caret from then.",
+					  "-------- File --------
+					/path/to/dir/package.json
+
+					-------- Dependencies --------
+					\\"test-dev-dep\\": \\"^2.0.0\\"
+					\\"another-test-dev-dep\\": \\"^1.0.0\\"",
 					]
 				`);
 			});
@@ -225,8 +238,11 @@ describe("lib", () => {
 	});
 
 	describe("monorepo", () => {
-		it("includes the root package.json if found", async () => {
+		it("includes the root package.json if found and it's marked as monorepo", async () => {
 			doMockGetPackages({
+				tool: {
+					isMonorepoRootSync: () => true,
+				},
 				rootPackage: {
 					dir: "/path/to/root",
 					relativeDir: "root",
@@ -255,14 +271,15 @@ describe("lib", () => {
 
 			await lib();
 
-			expect(mockLog.mock.calls.flat()).toMatchInlineSnapshot(`
-				[
-				  "Package: /path/to/root/package.json",
-				  "→ root-dep@^1.0.0",
-				  "Package: /path/to/dir/package.json",
-				  "→ test-dep@^1.0.0",
-				]
-			`);
+			expect(mockLog).toHaveBeenCalledWith(
+				expect.stringContaining("/path/to/root/package.json"),
+			);
+			expect(mockLog).toHaveBeenCalledWith(
+				expect.stringContaining(`"root-dep": "^1.0.0"`),
+			);
+			expect(mockLog).toHaveBeenCalledWith(
+				expect.stringContaining(`"test-dep": "^1.0.0"`),
+			);
 		});
 	});
 });
@@ -283,14 +300,16 @@ function doMockCommands(commands: Partial<CliConfigType> = {}) {
 	mockGetCliConfig.mockReturnValue(config);
 }
 
-function doMockGetPackages(mockReturn: Partial<GetPackages> = {}) {
+function doMockGetPackages(mockReturn: PartialDeep<GetPackages> = {}) {
 	const defaultReturn = {
 		packages: [],
 		rootPackage: undefined,
-	} satisfies Partial<GetPackages>;
-
-	mockGetPackages.mockReturnValue({
-		...defaultReturn,
 		...mockReturn,
-	});
+		tool: {
+			isMonorepoRootSync: () => false,
+			...mockReturn?.tool,
+		},
+	} satisfies PartialDeep<GetPackages>;
+
+	mockGetPackages.mockReturnValue(defaultReturn);
 }

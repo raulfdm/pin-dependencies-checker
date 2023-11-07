@@ -1,6 +1,7 @@
+import consola from "consola";
 import type { Package } from "./createPackage";
 import { getPackagesFromDirectory } from "./getPackagesFromDirectory";
-import { exitWithError, exitWithSuccess, log } from "./utils";
+import { exitWithError, exitWithSuccess } from "./utils";
 
 export async function lib() {
 	const allPackages = await getPackagesFromDirectory();
@@ -8,22 +9,28 @@ export async function lib() {
 	const allUnpinned = allPackages.filter((pkg) => pkg.hasUnpinnedDependency());
 
 	if (allUnpinned.length > 0) {
+		consola.error(
+			"👮 It seems you have unpinned dependencies. Please remove the caret from then.",
+		);
 		printUnpinnedDependencies(allUnpinned);
 		exitWithError();
 	} else {
-		log("It seems all your dependencies are pinned :)");
+		consola.success("All dependencies are pinned! 🙌");
 		exitWithSuccess();
 	}
 }
 
 function printUnpinnedDependencies(pkgs: Package[]) {
 	for (const packagesWithUnpinned of pkgs) {
-		log(`Package: ${packagesWithUnpinned.path}`);
+		const messages = ["-------- File --------", packagesWithUnpinned.path];
 
 		const unpinnedDeps = packagesWithUnpinned.getUnpinnedDependencies();
 
+		messages.push("", "-------- Dependencies --------");
 		for (const prodDeps of unpinnedDeps) {
-			log(`→ ${prodDeps.name}@${prodDeps.version}`);
+			messages.push(`"${prodDeps.name}": "${prodDeps.version}"`);
 		}
+
+		consola.box(messages.join("\n"));
 	}
 }
