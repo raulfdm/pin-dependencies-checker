@@ -35,6 +35,10 @@ describe("versionIsPinned", () => {
 		["workspace:*", false],
 		["workspace:1.0.0", true],
 		["workspace:^1.0.0", false],
+		["npm:package@2.26.4", true],
+		["npm:@scope/package@2.26.4", true],
+		["npm:package@^2.26.4", false],
+		["npm:@scope/package@^2.26.4", false],
 	])('versionIsPinned("%s") is %s', (version, expected) => {
 		expect(versionIsPinned(version)).toBe(expected);
 	});

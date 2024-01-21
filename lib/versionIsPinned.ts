@@ -29,6 +29,13 @@ export function versionIsPinned(version: string) {
 		return semverPattern.test(version.substring(10));
 	}
 
+	// Support package aliases: https://pnpm.io/aliases (Also works in npm and yarn)
+	if (version.startsWith("npm:")) {
+		const aliasedVersion = version.split("@").at(-1);
+		if (!aliasedVersion) return false;
+		return semverPattern.test(aliasedVersion);
+	}
+
 	if (isUrl(version)) {
 		return (
 			containsSemverPattern.test(version) ||
