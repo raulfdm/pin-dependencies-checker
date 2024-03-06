@@ -10,7 +10,10 @@ function isUrl(version: string): boolean {
 	return version.includes("/");
 }
 
-export function versionIsPinned(version: string) {
+export function versionIsPinned(
+	version: string,
+	options?: { ignoreWorkspaces?: boolean },
+) {
 	if (version === "" || version === "latest" || version === "*") {
 		return false;
 	}
@@ -26,6 +29,9 @@ export function versionIsPinned(version: string) {
 	}
 
 	if (version.startsWith("workspace:")) {
+		if (options?.ignoreWorkspaces) {
+			return true;
+		}
 		return semverPattern.test(version.substring(10));
 	}
 
