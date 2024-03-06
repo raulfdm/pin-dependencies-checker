@@ -47,7 +47,11 @@ export function createPackage(pkg: GetPackage) {
 	}
 
 	for (const [dependency, version] of allDependencies.entries()) {
-		if (!versionIsPinned(version)) {
+		if (
+			!versionIsPinned(version, {
+				ignoreWorkspaces: cliConfig["ignore-workspaces"],
+			})
+		) {
 			unpinnedList.push({
 				name: dependency,
 				version,

@@ -286,6 +286,7 @@ describe("lib", () => {
 
 function doMockCommands(commands: Partial<CliConfigType> = {}) {
 	const defaultConfig = {
+		"ignore-workspaces": false,
 		"peer-deps": false,
 		"no-deps": false,
 		"no-dev-deps": false,

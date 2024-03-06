@@ -110,6 +110,16 @@ npx pin-checker
 
 By default, this CLI scans only `dependencies` and `devDependencies`. This behavior can be modified with CLI arguments.
 
+### `--ignore-workspaces`
+
+> Default: false
+
+Allows versions starting with `workspaces:` to be ignored:
+
+```bash
+pnpm pin-checker --ignore-workspaces
+```
+
 ### `--no-deps`
 
 > Default: false

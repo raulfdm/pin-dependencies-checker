@@ -13,6 +13,10 @@ export function getCliConfig() {
 	const { values } = parseArgs({
 		args: process.argv.slice(2),
 		options: {
+			"ignore-workspaces": {
+				type: "boolean",
+				default: false,
+			},
 			"no-deps": {
 				type: "boolean",
 				default: false,

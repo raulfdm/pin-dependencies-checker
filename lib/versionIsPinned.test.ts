@@ -38,4 +38,19 @@ describe("versionIsPinned", () => {
 	])('versionIsPinned("%s") is %s', (version, expected) => {
 		expect(versionIsPinned(version)).toBe(expected);
 	});
+
+	describe("ignoreWorkspaces", () => {
+		test.each([
+			["workspace:*", true],
+			["workspace:5", true],
+			["workspace:whatever", true],
+		])(
+			'versionIsPinned("%s", { ignoreWorkspaces: true }) is %s',
+			(version, expected) => {
+				expect(versionIsPinned(version, { ignoreWorkspaces: true })).toBe(
+					expected,
+				);
+			},
+		);
+	});
 });
