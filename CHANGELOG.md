@@ -1,5 +1,11 @@
 ## 2.0.0
 
+## 2.4.0
+
+### Minor Changes
+
+- aaa7a62: force version bump
+
 ## 2.3.0
 
 ### Minor Changes
