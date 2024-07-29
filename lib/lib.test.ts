@@ -101,7 +101,7 @@ describe("lib", () => {
 					/path/to/dir/package.json
 
 					-------- Dependencies --------
-					\\"test-dep\\": \\"^1.0.0\\"",
+					"test-dep": "^1.0.0"",
 					]
 				`);
 			});
@@ -147,8 +147,8 @@ describe("lib", () => {
 					/path/to/dir/package.json
 
 					-------- Dependencies --------
-					\\"test-dev-dep\\": \\"^2.0.0\\"
-					\\"another-test-dev-dep\\": \\"^1.0.0\\"",
+					"test-dev-dep": "^2.0.0"
+					"another-test-dev-dep": "^1.0.0"",
 					]
 				`);
 			});
