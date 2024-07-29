@@ -1,5 +1,16 @@
 ## 2.0.0
 
+## 2.3.0
+
+### Minor Changes
+
+- 13f1724: adds a flag for ignoring versions that begin with "workspace:"
+- b39142c: Support checking [package aliases](https://pnpm.io/aliases). For example, `"package-alias": "npm:some-package@2.26.4"`.
+
+### Patch Changes
+
+- 7d7b996: bump @manypkg/get-packages version
+
 ## 2.2.0
 
 ### Minor Changes
