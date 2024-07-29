@@ -8,10 +8,7 @@
 	"bin": {
 		"pin-checker": "./bin/index.js"
 	},
-	"files": [
-		"dist",
-		"bin"
-	],
+	"files": ["dist", "bin"],
 	"scripts": {
 		"prepack": "pnpm run build",
 		"dev": "tsx lib/index.ts",
