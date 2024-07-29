@@ -10,9 +10,13 @@ function isUrl(version: string): boolean {
 	return version.includes("/");
 }
 
+interface VersionIsPinnedOptions {
+	ignoreWorkspaces?: boolean;
+	ignoreCatalog?: boolean;
+}
 export function versionIsPinned(
 	version: string,
-	options?: { ignoreWorkspaces?: boolean },
+	options?: VersionIsPinnedOptions,
 ) {
 	if (version === "" || version === "latest" || version === "*") {
 		return false;
@@ -32,7 +36,16 @@ export function versionIsPinned(
 		if (options?.ignoreWorkspaces) {
 			return true;
 		}
-		return semverPattern.test(version.substring(10));
+		return semverPattern.test(version.substring("workspace:".length));
+	}
+
+	if (version.startsWith("catalog:")) {
+		if (options?.ignoreCatalog) {
+			return true;
+		}
+
+		// Catalogs don't follow semver, so we don't need to check for it
+		return false;
 	}
 
 	// Support package aliases: https://pnpm.io/aliases (Also works in npm and yarn)

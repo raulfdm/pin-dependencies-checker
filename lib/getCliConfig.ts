@@ -17,6 +17,10 @@ export function getCliConfig() {
 				type: "boolean",
 				default: false,
 			},
+			"ignore-catalog": {
+				type: "boolean",
+				default: false,
+			},
 			"no-deps": {
 				type: "boolean",
 				default: false,

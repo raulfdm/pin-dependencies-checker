@@ -39,6 +39,8 @@ describe("versionIsPinned", () => {
 		["npm:@scope/package@2.26.4", true],
 		["npm:package@^2.26.4", false],
 		["npm:@scope/package@^2.26.4", false],
+		["catalog:", false],
+		["catalog:react", false],
 	])('versionIsPinned("%s") is %s', (version, expected) => {
 		expect(versionIsPinned(version)).toBe(expected);
 	});
@@ -52,6 +54,21 @@ describe("versionIsPinned", () => {
 			'versionIsPinned("%s", { ignoreWorkspaces: true }) is %s',
 			(version, expected) => {
 				expect(versionIsPinned(version, { ignoreWorkspaces: true })).toBe(
+					expected,
+				);
+			},
+		);
+	});
+
+	describe("ignoreCatalog", () => {
+		test.each([
+			["catalog:", true],
+			["catalog:react19", true],
+			["catalog:storybook", true],
+		])(
+			'versionIsPinned("%s", { ignoreCatalog: true }) is %s',
+			(version, expected) => {
+				expect(versionIsPinned(version, { ignoreCatalog: true })).toBe(
 					expected,
 				);
 			},
