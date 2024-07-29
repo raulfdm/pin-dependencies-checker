@@ -14,6 +14,7 @@
 		"dev": "tsx lib/index.ts",
 		"test": "vitest",
 		"build": "vite build",
+		"check": "biome check .",
 		"format": "biome format .",
 		"lint": "biome lint ."
 	},
