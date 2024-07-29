@@ -50,6 +50,7 @@ export function createPackage(pkg: GetPackage) {
 		if (
 			!versionIsPinned(version, {
 				ignoreWorkspaces: cliConfig["ignore-workspaces"],
+				ignoreCatalog: cliConfig["ignore-catalog"],
 			})
 		) {
 			unpinnedList.push({

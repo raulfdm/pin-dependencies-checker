@@ -120,6 +120,18 @@ Allows versions starting with `workspaces:` to be ignored:
 pnpm pin-checker --ignore-workspaces
 ```
 
+### `--ignore-catalog`
+
+> Default: false
+
+Allows versions starting with `catalog:` to be ignored:
+
+```bash
+pnpm pin-checker --ignore-catalog
+```
+
+> [See more about pnpm's catalogs feature](https://pnpm.io/catalogs)
+
 ### `--no-deps`
 
 > Default: false

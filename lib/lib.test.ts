@@ -282,11 +282,69 @@ describe("lib", () => {
 			);
 		});
 	});
+
+	describe("catalog", () => {
+		it("ignores catalog packages", async () => {
+			doMockCommands({
+				"ignore-catalog": true,
+			});
+			doMockGetPackages({
+				packages: [
+					{
+						dir: "/path/to/dir",
+						relativeDir: "dir",
+						packageJson: {
+							name: "test",
+							version: "1.0.0",
+							dependencies: {
+								"test-dep": "^1.0.0",
+							},
+						},
+					},
+					{
+						dir: "/path/to/pkg",
+						relativeDir: "pkg",
+						packageJson: {
+							name: "pkg",
+							version: "1.0.0",
+							dependencies: {
+								"dep-name": "catalog:",
+							},
+						},
+					},
+					{
+						dir: "/path/to/pkg-2",
+						relativeDir: "pkg-2",
+						packageJson: {
+							name: "pkg-2",
+							version: "1.0.0",
+							dependencies: {
+								"dep-name": "catalog:react19",
+							},
+						},
+					},
+				],
+			});
+
+			await lib();
+
+			expect(mockLog).not.toHaveBeenCalledWith(
+				expect.stringContaining("/path/to/pkg/package.json"),
+			);
+			expect(mockLog).not.toHaveBeenCalledWith(
+				expect.stringContaining("/path/to/pkg-2/package.json"),
+			);
+			expect(mockLog).toHaveBeenCalledWith(
+				expect.stringContaining("/path/to/dir/package.json"),
+			);
+		});
+	});
 });
 
 function doMockCommands(commands: Partial<CliConfigType> = {}) {
 	const defaultConfig = {
 		"ignore-workspaces": false,
+		"ignore-catalog": false,
 		"peer-deps": false,
 		"no-deps": false,
 		"no-dev-deps": false,
