@@ -8,19 +8,14 @@
 	"bin": {
 		"pin-checker": "./bin/index.js"
 	},
-	"files": [
-		"dist",
-		"bin"
-	],
+	"files": ["dist", "bin"],
 	"scripts": {
 		"prepack": "pnpm run build",
 		"dev": "tsx lib/index.ts",
 		"test": "vitest",
 		"build": "vite build",
-		"check": "biome check .",
 		"format": "biome format .",
-		"lint": "biome lint .",
-		"prepare": "husky install"
+		"lint": "biome lint ."
 	},
 	"dependencies": {
 		"@manypkg/get-packages": "2.2.2",
