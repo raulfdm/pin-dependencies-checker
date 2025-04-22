@@ -1,4 +1,5 @@
 import { versionIsPinned } from "./versionIsPinned";
+import { describe, test, expect } from "vitest";
 
 describe("versionIsPinned", () => {
 	test.each([

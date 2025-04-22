@@ -1,6 +1,7 @@
 import type { Packages as GetPackages } from "@manypkg/get-packages";
 import consola from "consola";
 import type { PartialDeep } from "type-fest";
+import { describe, expect, it, beforeAll, beforeEach, vi } from "vitest";
 import type { CliConfigType } from "./getCliConfig";
 import { lib } from "./lib";
 
