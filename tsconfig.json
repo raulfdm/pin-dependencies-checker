@@ -13,7 +13,6 @@
 		"module": "ESNext",
 		"noEmit": true,
 		"lib": ["es2022"],
-		"declaration": true,
-		"types": ["vitest/globals"]
+		"declaration": true
 	}
 }
