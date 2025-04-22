@@ -179,19 +179,18 @@ pnpm pin-checker --optional-deps
 
 To run this project, you'll need:
 
-- Node 20 or higher
-- pnpm
+- bun 1.2.10 or higher
 
 After cloning, install the dependencies:
 
 ```bash
-pnpm install
+bun install
 ```
 
 You can either link the package globally or run the command:
 
 ```bash
-pnpm run dev
+bun run dev
 ```
 
 This will evaluate the current repository, which can be handy for quick tests.
@@ -199,7 +198,7 @@ This will evaluate the current repository, which can be handy for quick tests.
 To run unit tests:
 
 ```bash
-pnpm run test
+bun run test
 ```
 
 ## License
