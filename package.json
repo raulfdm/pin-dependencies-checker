@@ -8,12 +8,9 @@
 	"bin": {
 		"pin-checker": "./bin/index.js"
 	},
-	"files": [
-		"dist",
-		"bin"
-	],
+	"files": ["dist", "bin"],
 	"scripts": {
-		"prepack": "pnpm run build",
+		"prepack": "bun run build",
 		"dev": "bun lib/index.ts",
 		"test": "bun test",
 		"build": "tsdown",
