@@ -1,5 +1,11 @@
 ## 2.0.0
 
+## 2.6.0
+
+### Minor Changes
+
+- 379aff7: Upgrade consola
+
 ## 2.5.0
 
 ### Minor Changes
