@@ -15,13 +15,13 @@ jobs:
         run: bun install
 
       - name: Unit Tests
-        run: bun test
+        run: bun run test
 
       - name: Lint
-        run: bun lint
+        run: bun run lint
 
       - name: Code check
-        run: bun check
+        run: bun run check
 
       - name: Build
-        run: bun build
+        run: bun run build
