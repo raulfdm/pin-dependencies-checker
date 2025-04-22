@@ -1,0 +1,34 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`lib no pinned lib prints a nice message 1`] = `
+[
+  "All dependencies are pinned! 🙌",
+]
+`;
+
+exports[`lib found pinned lib prod dependencies prints all pinned dependencies by default 1`] = `
+[
+  "👮 It seems you have unpinned dependencies. Please remove the caret from then.",
+  
+"-------- File --------
+/path/to/dir/package.json
+
+-------- Dependencies --------
+"test-dep": "^1.0.0""
+,
+]
+`;
+
+exports[`lib found pinned lib dev dependencies prints all pinned dependencies by default 1`] = `
+[
+  "👮 It seems you have unpinned dependencies. Please remove the caret from then.",
+  
+"-------- File --------
+/path/to/dir/package.json
+
+-------- Dependencies --------
+"test-dev-dep": "^2.0.0"
+"another-test-dev-dep": "^1.0.0""
+,
+]
+`;

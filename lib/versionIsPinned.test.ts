@@ -1,3 +1,4 @@
+import { describe, expect, test } from "bun:test";
 import { versionIsPinned } from "./versionIsPinned";
 
 describe("versionIsPinned", () => {

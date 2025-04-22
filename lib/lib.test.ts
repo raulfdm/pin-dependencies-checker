@@ -1,23 +1,32 @@
+import {
+	beforeAll,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	jest,
+	mock,
+} from "bun:test";
 import type { Packages as GetPackages } from "@manypkg/get-packages";
 import consola from "consola";
 import type { PartialDeep } from "type-fest";
 import type { CliConfigType } from "./getCliConfig";
 import { lib } from "./lib";
 
-const mockGetPackages = vi.fn();
-vi.mock("@manypkg/get-packages", () => ({
+const mockGetPackages = mock();
+mock.module("@manypkg/get-packages", () => ({
 	getPackages: () => mockGetPackages(),
 }));
 
-const mockGetCliConfig = vi.fn();
-vi.mock("./getCliConfig", () => ({
+const mockGetCliConfig = mock();
+mock.module("./getCliConfig", () => ({
 	getCliConfig: () => mockGetCliConfig(),
 }));
 
-const mockExitWithSuccess = vi.fn();
-const mockExitWithError = vi.fn();
-const mockLog = vi.fn();
-vi.mock("./utils", () => ({
+const mockExitWithSuccess = mock();
+const mockExitWithError = mock();
+const mockLog = mock();
+mock.module("./utils", () => ({
 	exitWithSuccess: () => mockExitWithSuccess(),
 	exitWithError: () => mockExitWithError(),
 }));
@@ -31,6 +40,7 @@ describe("lib", () => {
 		consola.mockTypes(() => mockLog);
 		doMockCommands();
 		doMockGetPackages();
+		jest.clearAllMocks();
 	});
 
 	describe("no pinned lib", () => {
@@ -42,11 +52,7 @@ describe("lib", () => {
 		it("prints a nice message", async () => {
 			await lib();
 
-			expect(mockLog.mock.calls.flat()).toMatchInlineSnapshot(`
-				[
-				  "All dependencies are pinned! 🙌",
-				]
-			`);
+			expect(mockLog.mock.calls.flat()).toMatchSnapshot();
 		});
 	});
 
@@ -94,16 +100,7 @@ describe("lib", () => {
 			it("prints all pinned dependencies by default", async () => {
 				await lib();
 
-				expect(mockLog.mock.calls.flat()).toMatchInlineSnapshot(`
-					[
-					  "👮 It seems you have unpinned dependencies. Please remove the caret from then.",
-					  "-------- File --------
-					/path/to/dir/package.json
-
-					-------- Dependencies --------
-					"test-dep": "^1.0.0"",
-					]
-				`);
+				expect(mockLog.mock.calls.flat()).toMatchSnapshot();
 			});
 
 			it("does not fail if --deps=false but there are unpinned production dependencies", async () => {
@@ -140,17 +137,7 @@ describe("lib", () => {
 			it("prints all pinned dependencies by default", async () => {
 				await lib();
 
-				expect(mockLog.mock.calls.flat()).toMatchInlineSnapshot(`
-					[
-					  "👮 It seems you have unpinned dependencies. Please remove the caret from then.",
-					  "-------- File --------
-					/path/to/dir/package.json
-
-					-------- Dependencies --------
-					"test-dev-dep": "^2.0.0"
-					"another-test-dev-dep": "^1.0.0"",
-					]
-				`);
+				expect(mockLog.mock.calls.flat()).toMatchSnapshot();
 			});
 
 			it("does not print pinned dependencies if --no-dev-deps", async () => {

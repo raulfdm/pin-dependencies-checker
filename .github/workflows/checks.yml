@@ -6,30 +6,22 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
-      - name: Branch checkout
-        uses: actions/checkout@v4.1.7
-
-      - uses: pnpm/action-setup@v4.0.0
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          version: 9.6.0
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4.0.3
-        with:
-          node-version: 20
-          cache: "pnpm"
+          bun-version: 1.2.10
 
       - name: Install Dependencies
-        run: pnpm install
+        run: bun install
 
       - name: Unit Tests
-        run: pnpm test
+        run: bun run test
 
       - name: Lint
-        run: pnpm lint
+        run: bun run lint
 
       - name: Code check
-        run: pnpm check
+        run: bun run check
 
       - name: Build
-        run: pnpm build
+        run: bun run build
