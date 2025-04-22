@@ -1,15 +1,15 @@
-import type { Packages as GetPackages } from "@manypkg/get-packages";
-import consola from "consola";
-import type { PartialDeep } from "type-fest";
 import {
 	beforeAll,
 	beforeEach,
 	describe,
 	expect,
 	it,
-	mock,
 	jest,
+	mock,
 } from "bun:test";
+import type { Packages as GetPackages } from "@manypkg/get-packages";
+import consola from "consola";
+import type { PartialDeep } from "type-fest";
 import type { CliConfigType } from "./getCliConfig";
 import { lib } from "./lib";
 
