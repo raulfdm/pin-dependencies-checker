@@ -1,8 +1,7 @@
 {
 	"name": "pin-dependencies-checker",
 	"version": "2.6.0",
-	"repository": "git@github.com:raulfdm/pin-dependencies-checker.git",
-	"author": "Raul Melo <melo.raulf@gmail.com>",
+	"repository": "git@github.com:sotatek-tyler-nguyen4/pin-dependencies-checker.git",
 	"license": "MIT",
 	"type": "module",
 	"bin": {

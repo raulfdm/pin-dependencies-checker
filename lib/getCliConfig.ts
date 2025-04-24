@@ -37,6 +37,10 @@ export function getCliConfig() {
 				type: "boolean",
 				default: false,
 			},
+			"check-turbo": {
+				type: "boolean",
+				default: false,
+			},
 		},
 	});
 

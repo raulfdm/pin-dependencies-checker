@@ -46,6 +46,14 @@ export function createPackage(pkg: GetPackage) {
 		}
 	}
 
+	if (cliConfig["check-turbo"]) {
+		for (const [dependency, version] of allDependencies.entries()) {
+			if (version === "*") {
+				allDependencies.delete(dependency);
+			}
+		}
+	}
+
 	for (const [dependency, version] of allDependencies.entries()) {
 		if (
 			!versionIsPinned(version, {
