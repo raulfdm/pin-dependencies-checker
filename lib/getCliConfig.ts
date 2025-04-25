@@ -37,7 +37,7 @@ export function getCliConfig() {
 				type: "boolean",
 				default: false,
 			},
-			"check-turbo": {
+			"ignore-star": {
 				type: "boolean",
 				default: false,
 			},

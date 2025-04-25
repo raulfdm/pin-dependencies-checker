@@ -46,7 +46,7 @@ export function createPackage(pkg: GetPackage) {
 		}
 	}
 
-	if (cliConfig["check-turbo"]) {
+	if (cliConfig["ignore-star"]) {
 		for (const [dependency, version] of allDependencies.entries()) {
 			if (version === "*") {
 				allDependencies.delete(dependency);
