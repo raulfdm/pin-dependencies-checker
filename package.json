@@ -1,6 +1,6 @@
 {
 	"name": "pin-dependencies-checker",
-	"version": "2.6.0",
+	"version": "2.6.1",
 	"repository": "git@github.com:raulfdm/pin-dependencies-checker.git",
 	"author": "Raul Melo <melo.raulf@gmail.com>",
 	"license": "MIT",
@@ -8,7 +8,10 @@
 	"bin": {
 		"pin-checker": "./bin/index.js"
 	},
-	"files": ["dist", "bin"],
+	"files": [
+		"dist",
+		"bin"
+	],
 	"scripts": {
 		"prepack": "bun run build",
 		"dev": "bun lib/index.ts",

@@ -1,5 +1,11 @@
 ## 2.0.0
 
+## 2.6.1
+
+### Patch Changes
+
+- 1046946: Fix bug where running the package from the command line would result in an `ERR_MODULE_NOT_FOUND`.
+
 ## 2.6.0
 
 ### Minor Changes
