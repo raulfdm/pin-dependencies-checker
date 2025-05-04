@@ -25,3 +25,6 @@ jobs:
 
       - name: Build
         run: bun run build
+
+      - name: Pinned Dependencies Check
+        run: bun ./bin/index.js
