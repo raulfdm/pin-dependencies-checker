@@ -4,8 +4,8 @@
     "": {
       "name": "pin-dependencies-checker",
       "dependencies": {
-        "@manypkg/get-packages": "2.2.2",
-        "consola": "3.4.2",
+        "@manypkg/get-packages": "^2.2.2",
+        "consola": "^3.4.2",
       },
       "devDependencies": {
         "@biomejs/biome": "1.9.4",
