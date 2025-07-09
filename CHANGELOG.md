@@ -1,5 +1,11 @@
 ## 2.0.0
 
+## 2.7.0
+
+### Minor Changes
+
+- 0929fde: Add version range for lib dependencies
+
 ## 2.6.1
 
 ### Patch Changes
