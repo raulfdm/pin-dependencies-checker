@@ -28,4 +28,4 @@ jobs:
         run: bun run build
 
       - name: Pinned Dependencies Check
-        run: bun ./bin/index.js
+        run: bun ./bin/index.js --no-deps # Since this is a lib, it's ok to prod dependencies not to be pinned
