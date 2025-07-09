@@ -11,7 +11,7 @@
 	"files": ["dist", "bin"],
 	"scripts": {
 		"prepack": "bun run build",
-		"dev": "bun lib/index.ts",
+		"dev": "bun lib/index.ts --no-deps",
 		"test": "bun test",
 		"build": "tsdown",
 		"check": "biome check .",
@@ -19,8 +19,8 @@
 		"lint": "biome lint ."
 	},
 	"dependencies": {
-		"@manypkg/get-packages": "2.2.2",
-		"consola": "3.4.2"
+		"@manypkg/get-packages": "^2.2.2",
+		"consola": "^3.4.2"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",

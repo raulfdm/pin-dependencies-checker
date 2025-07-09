@@ -7,9 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+
+      - uses: oven-sh/setup-bun@v2.0.2
         with:
-          bun-version: 1.2.10
+          bun-version-file: "./package.json"
 
       - name: Install Dependencies
         run: bun install
@@ -27,4 +28,4 @@ jobs:
         run: bun run build
 
       - name: Pinned Dependencies Check
-        run: bun ./bin/index.js
+        run: bun ./bin/index.js --no-deps # Since this is a lib, it's ok to prod dependencies not to be pinned
