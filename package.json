@@ -37,8 +37,8 @@
 	},
 	"packageManager": "bun@1.2.10",
 	"engines": {
-		"node": "20",
-		"bun": "1.2.10"
+		"node": ">=20",
+		"bun": ">=1.2.10"
 	},
 	"volta": {
 		"node": "20.16.0",
