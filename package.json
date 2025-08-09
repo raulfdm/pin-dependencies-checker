@@ -14,7 +14,10 @@
 	"bin": {
 		"pin-checker": "bin/index.js"
 	},
-	"files": ["dist", "bin"],
+	"files": [
+		"dist",
+		"bin"
+	],
 	"scripts": {
 		"prepack": "bun run build",
 		"dev": "bun lib/index.ts --no-deps",
