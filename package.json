@@ -19,7 +19,8 @@
 		"build": "tsdown",
 		"check": "biome check .",
 		"format": "biome format .",
-		"lint": "biome lint ."
+		"lint": "biome lint .",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"@manypkg/get-packages": "^2.2.2",
