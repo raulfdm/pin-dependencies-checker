@@ -1,5 +1,11 @@
 ## 2.0.0
 
+## 2.7.1
+
+### Patch Changes
+
+- 53d5cf7: Relax Node.js engine requirement from exact version 20 to >=20 to support newer Node versions
+
 ## 2.7.0
 
 ### Minor Changes
